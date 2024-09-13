@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Gallery</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f5;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 40px;
+            color: #444;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styles */
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        form select, form input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Gallery Styles */
+        ul {
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        ul li {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        ul li img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        ul li:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            ul li {
+                width: 100%;
+            }
+
+            form {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Manage Gallery</h1>
+
+    <form action="{{ url_for('admin.admin_gallery') }}" method="POST" enctype="multipart/form-data">
+        <label for="category">Category:</label>
+        <select name="category" id="category" required>
+            <option value="wedding">Wedding</option>
+            <option value="corporate">Corporate</option>
+            <option value="house_festivities">House Festivities</option>
+        </select>
+
+        <label for="file">Choose an image:</label>
+        <input type="file" name="file" id="file" required>
+
+        <button type="submit">Upload Image</button>
+    </form>
+
+    <h2>Wedding Images</h2>
+    <ul>
+        {% for image in wedding_images %}
+        <li>
+            <img src="{{ url_for('admin.gallery_image', category='wedding', filename=image) }}" alt="{{ image }}" width="200">
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Corporate Images</h2>
+    <ul>
+        {% for image in corporate_images %}
+        <li>
+            <img src="{{ url_for('admin.gallery_image', category='corporate', filename=image) }}" alt="{{ image }}" width="200">
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>House Festivities Images</h2>
+    <ul>
+        {% for image in house_festivities_images %}
+        <li>
+            <img src="{{ url_for('admin.gallery_image', category='house_festivities', filename=image) }}" alt="{{ image }}" width="200">
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

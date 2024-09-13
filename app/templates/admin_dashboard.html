@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #2d3748;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        .dashboard-item {
+            background-color: #5a67d8;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .dashboard-item:hover {
+            background-color: #434190;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-item {
+                height: 150px;
+                font-size: 1.3rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Admin Dashboard</h1>
+
+    <div class="dashboard-container">
+        <a href="{{ url_for('admin.admin_request') }}" class="dashboard-item">Requests</a>
+        <a href="{{ url_for('admin.admin_gallery') }}" class="dashboard-item">Gallery</a>
+        <a href="{{ url_for('admin.admin_services') }}" class="dashboard-item">Services</a>
+        <a href="{{ url_for('admin.admin_details') }}" class="dashboard-item">Details</a>
+    </div>
+
+</body>
+</html>
