@@ -21,7 +21,6 @@ def allowed_file(filename):
 def home():
     return render_template('home.html')
 
-
 # Admin login page route
 @admin_bp.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
@@ -38,29 +37,27 @@ def admin_login():
 
     return render_template('admin_login.html')
 
-
 # Admin dashboard route
 @admin_bp.route('/admin_dashboard')
 def admin_dashboard():
     return render_template('admin_dashboard.html')
 
-
-# Admin services page route (handles both add and edit)
 @admin_bp.route('/admin_services', methods=['GET', 'POST'])
 def admin_services():
     if request.method == 'POST':
         service_id = request.form.get('service_id')
         name = request.form.get('name')
         description = request.form.get('description')
+        category = request.form.get('category')  # Get the category
 
         if service_id:  # Update existing service
             mongo.db.services.update_one(
                 {'_id': ObjectId(service_id)},
-                {'$set': {'name': name, 'description': description}}
+                {'$set': {'name': name, 'description': description, 'category': category}}
             )
             flash('Service updated successfully')
         else:  # Add new service
-            mongo.db.services.insert_one({'name': name, 'description': description})
+            mongo.db.services.insert_one({'name': name, 'description': description, 'category': category})
             flash('Service added successfully')
 
         return redirect(url_for('admin.admin_services'))
@@ -71,13 +68,6 @@ def admin_services():
 
     return render_template('admin_services.html', services=services, service=service)
 
-
-# Admin request page route
-@admin_bp.route('/admin_request')
-def admin_request():
-    return render_template('admin_request.html')
-
-
 # Admin gallery page route - Add, Edit and List images by category
 @admin_bp.route('/admin_gallery', methods=['GET', 'POST'])
 def admin_gallery():
@@ -86,8 +76,12 @@ def admin_gallery():
         file = request.files.get('file')
 
         if category and file and allowed_file(file.filename):
+            # Create category folder if it doesn't exist
+            category_folder = os.path.join(GALLERY_FOLDER, category)
+            os.makedirs(category_folder, exist_ok=True)
+
             filename = secure_filename(file.filename)
-            file.save(os.path.join(GALLERY_FOLDER, category, filename))
+            file.save(os.path.join(category_folder, filename))
             flash(f'Image {filename} uploaded successfully!')
         else:
             flash('Invalid category or file!')
@@ -109,10 +103,30 @@ def admin_gallery():
 # Route to serve the images
 @admin_bp.route('/gallery/<category>/<filename>')
 def gallery_image(category, filename):
-    return send_from_directory(f'E:/Mini Project/THEPROJECTC/app/static/uploads/gallery/{category}', filename)
-
+    return send_from_directory(os.path.join(GALLERY_FOLDER, category), filename)
 
 # Admin details page route
 @admin_bp.route('/admin_details')
 def admin_details():
     return render_template('admin_details.html')
+
+# Admin request page route
+@admin_bp.route('/admin_request')
+def admin_request():
+    return render_template('admin_request.html')
+
+# Route for displaying the gallery to clients
+@home_bp.route('/gallery')
+def gallery():
+    # List images by category, similar to admin view
+    wedding_images = os.listdir(os.path.join(GALLERY_FOLDER, 'wedding'))
+    corporate_images = os.listdir(os.path.join(GALLERY_FOLDER, 'corporate'))
+    house_festivities_images = os.listdir(os.path.join(GALLERY_FOLDER, 'house_festivities'))
+
+    return render_template(
+        'gallery.html',
+        wedding_images=wedding_images,
+        corporate_images=corporate_images,
+        house_festivities_images=house_festivities_images
+    )
+

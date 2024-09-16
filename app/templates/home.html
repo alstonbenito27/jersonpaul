@@ -33,6 +33,26 @@
             margin-bottom: 10px;
         }
 
+        nav {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #ffffff;
+            background-color: #007bff;
+            padding: 10px 20px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
         .container {
             flex: 1;
             display: flex;
@@ -46,21 +66,6 @@
             font-size: 28px;
             margin-bottom: 20px;
             color: #495057;
-        }
-
-        .button {
-            display: inline-block;
-            font-size: 18px;
-            color: #ffffff;
-            background-color: #007bff;
-            padding: 15px 25px;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .button:hover {
-            background-color: #0056b3;
         }
 
         footer {
@@ -83,14 +88,19 @@
         <p>Capturing Moments, Creating Memories</p>
     </header>
 
+    <nav>
+        <a href="{{ url_for('home.home') }}">Home</a>
+        <a href="{{ url_for('home.gallery') }}">Gallery</a> <!-- Gallery Link -->
+        <a href="{{ url_for('admin.admin_login') }}">Admin Login</a>
+    </nav>
+
     <div class="container">
         <h2>Welcome to Our Photography Services</h2>
         <p>Explore our portfolio and discover how we can make your events unforgettable.</p>
-        <!-- Add a section for more content if needed -->
     </div>
 
     <footer>
-        <p><a href="{{ url_for('admin.admin_login') }}" class="button">Admin Login</a></p>
+        <p>© 2024 JersonPaul Photography. All rights reserved.</p>
     </footer>
 </body>
 </html>

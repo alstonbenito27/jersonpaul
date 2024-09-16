@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JersonPaul Photography - Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .gallery-section {
+            margin-bottom: 50px;
+        }
+
+        .gallery-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Our Gallery</h1>
+
+    <div class="gallery-section">
+        <h2>Weddings</h2>
+        <div class="image-grid">
+            {% for image in wedding_images %}
+            <img src="{{ url_for('admin.gallery_image', category='wedding', filename=image) }}" alt="Wedding Image">
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="gallery-section">
+        <h2>Corporate Events</h2>
+        <div class="image-grid">
+            {% for image in corporate_images %}
+            <img src="{{ url_for('admin.gallery_image', category='corporate', filename=image) }}" alt="Corporate Event Image">
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="gallery-section">
+        <h2>House Festivities</h2>
+        <div class="image-grid">
+            {% for image in house_festivities_images %}
+            <img src="{{ url_for('admin.gallery_image', category='house_festivities', filename=image) }}" alt="House Festivity Image">
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

@@ -48,7 +48,8 @@
         }
 
         input[type="text"],
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -60,7 +61,8 @@
         }
 
         input[type="text"]:focus,
-        textarea:focus {
+        textarea:focus,
+        select:focus {
             border-color: #5a67d8;
         }
 
@@ -143,16 +145,46 @@
     <h2>Add or Edit Service</h2>
     <form method="POST">
         <input type="hidden" name="service_id" value="{{ service._id if service else '' }}">
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="Wedding" {% if service and service.category == 'Wedding' %}selected{% endif %}>Wedding</option>
+            <option value="Corporate" {% if service and service.category == 'Corporate' %}selected{% endif %}>Corporate</option>
+            <option value="House Festivities" {% if service and service.category == 'House Festivities' %}selected{% endif %}>House Festivities</option>
+        </select>
+
         <label for="name">Service Name:</label>
         <input type="text" id="name" name="name" value="{{ service.name if service else '' }}" required>
+
         <label for="description">Description:</label>
         <textarea id="description" name="description" required>{{ service.description if service else '' }}</textarea>
+
         <input type="submit" value="{{ 'Update' if service else 'Add' }}">
     </form>
 
     <h2>Existing Services</h2>
+
     <div class="service-container">
-        {% for svc in services %}
+        <h3>Wedding</h3>
+        {% for svc in services if svc.category == 'Wedding' %}
+            <div class="service-block">
+                <h3>{{ svc.name }}</h3>
+                <p>{{ svc.description }}</p>
+                <a href="{{ url_for('admin.admin_services', service_id=svc._id) }}">Edit</a>
+            </div>
+        {% endfor %}
+
+        <h3>Corporate</h3>
+        {% for svc in services if svc.category == 'Corporate' %}
+            <div class="service-block">
+                <h3>{{ svc.name }}</h3>
+                <p>{{ svc.description }}</p>
+                <a href="{{ url_for('admin.admin_services', service_id=svc._id) }}">Edit</a>
+            </div>
+        {% endfor %}
+
+        <h3>House Festivities</h3>
+        {% for svc in services if svc.category == 'House Festivities' %}
             <div class="service-block">
                 <h3>{{ svc.name }}</h3>
                 <p>{{ svc.description }}</p>
