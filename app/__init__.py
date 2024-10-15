@@ -1,9 +1,10 @@
 from flask import Flask
 from flask_pymongo import PyMongo
+from flask_mail import Mail
 
-# Global mongo instance
+# Global instances
 mongo = PyMongo()
-
+mail = Mail()  # Initialize mail object
 
 def create_app():
     app = Flask(__name__)
@@ -13,6 +14,9 @@ def create_app():
 
     # Initialize MongoDB
     mongo.init_app(app)
+
+    # Initialize Mail
+    mail.init_app(app)  # Initialize mail after app is created
 
     # Import and register blueprints
     from .routes import home_bp, admin_bp

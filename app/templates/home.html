@@ -1,87 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JersonPaul Photography</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Arial', sans-serif;
-            color: #333;
-            background-color: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            color: #FFFFFF;
+            background-color: #1a1a1a;
+            margin: 0;
+            padding: 0;
         }
 
+        /* Header Section */
         header {
-            background-color: #343a40;
-            color: #ffffff;
-            padding: 20px;
             text-align: center;
+            padding: 30px;
+            background-color: #111111;
+            color: #FFD700;
+            width: 100%;
         }
 
         header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
+            font-size: 42px;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
+        header p {
+            margin-top: 5px;
+            font-size: 18px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Navigation Bar with Box Style */
         nav {
-            margin-top: 20px;
+            background-color: #111111;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        nav ul li {
+            margin: 0;
+        }
+
+        nav ul li a {
+            display: inline-block;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            color: #FFD700;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #1a1a1a;
+            border: 1px solid #FFD700;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #FFD700;
+            color: #111111;
+        }
+
+        /* Image Gallery Slider */
+        .gallery-section {
+            padding: 40px 0;
             text-align: center;
         }
 
-        nav a {
-            color: #ffffff;
-            background-color: #007bff;
-            padding: 10px 20px;
-            margin: 10px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: #0056b3;
-        }
-
-        .container {
-            flex: 1;
+        .gallery-slider {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            overflow-x: scroll;
+            scroll-behavior: smooth;
+            gap: 20px;
             padding: 20px;
+            max-width: 100%;
         }
 
-        .container h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #495057;
+        .gallery-slider::-webkit-scrollbar {
+            display: none;
         }
 
+        .gallery-card {
+            flex: 0 0 300px;
+            background-color: #1a1a1a;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Footer Section */
         footer {
-            background-color: #343a40;
-            color: #ffffff;
+            background-color: #111111;
+            color: #FFD700;
             text-align: center;
             padding: 15px;
+            width: 100%;
         }
 
         footer a {
-            color: #ffffff;
+            color: #FFD700;
             text-decoration: none;
             font-weight: bold;
         }
+
+        footer a:hover {
+            color: #FFFFFF;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 40px 20px;
+            background-color: #1a1a1a;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .contact-section h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+
+        .contact-section p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .contact-section a {
+            color: #FFD700;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .contact-section a:hover {
+            color: #FFFFFF;
+        }
+
+        .contact-section i {
+            margin-right: 8px;
+        }
+
+        /* Adjustments for responsiveness */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            .gallery-card {
+                flex: 0 0 250px;
+            }
+
+            .gallery-card img {
+                width: 250px;
+                height: 250px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <header>
         <h1>JersonPaul Photography</h1>
@@ -89,18 +191,64 @@
     </header>
 
     <nav>
-        <a href="{{ url_for('home.home') }}">Home</a>
-        <a href="{{ url_for('home.gallery') }}">Gallery</a> <!-- Gallery Link -->
-        <a href="{{ url_for('admin.admin_login') }}">Admin Login</a>
+        <ul>
+            <li><a href="{{ url_for('home.home') }}"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="{{ url_for('home.services') }}"><i class="fas fa-camera"></i> Services</a></li>
+            <li><a href="{{ url_for('home.book_services') }}"><i class="fas fa-calendar-check"></i> Book Services</a></li>
+<!--            <li><a href="{{ url_for('home.check_availability') }}"><i class="fas fa-calendar-alt"></i> Check Date</a></li>-->
+            <li><a href="{{ url_for('home.contact') }}"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
     </nav>
 
     <div class="container">
-        <h2>Welcome to Our Photography Services</h2>
-        <p>Explore our portfolio and discover how we can make your events unforgettable.</p>
+        <!-- Wedding Section -->
+        <div class="gallery-section">
+            <h2>Wedding Gallery</h2>
+            <div class="gallery-slider">
+                {% for image in wedding_images %}
+                <div class="gallery-card">
+                    <img src="{{ url_for('static', filename='uploads/gallery/wedding/' + image) }}" alt="Wedding Image">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Corporate Section -->
+        <div class="gallery-section">
+            <h2>Corporate Gallery</h2>
+            <div class="gallery-slider">
+                {% for image in corporate_images %}
+                <div class="gallery-card">
+                    <img src="{{ url_for('static', filename='uploads/gallery/corporate/' + image) }}" alt="Corporate Image">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- House Festivities Section -->
+        <div class="gallery-section">
+            <h2>House Festivities Gallery</h2>
+            <div class="gallery-slider">
+                {% for image in house_festivities_images %}
+                <div class="gallery-card">
+                    <img src="{{ url_for('static', filename='uploads/gallery/house_festivities/' + image) }}"
+                        alt="House Festivities Image">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <h2>Contact Us</h2>
+        <p><i class="fas fa-phone"></i> +91 9000090000</p>
+        <p><i class="fas fa-envelope"></i> jpp@example.com</p>
+        <p>Follow us on <a href="https://www.instagram.com/jp_photographyyyy_/">Instagram</a>
+    </section>
+
     <footer>
-        <p>© 2024 JersonPaul Photography. All rights reserved.</p>
+        <p>&copy; 2024 JersonPaul Photography. All rights reserved. | <a href="{{ url_for('home.contact') }}">Contact Us</a></p>
+        <a href="{{ url_for('admin.admin_login') }}" class="admin-login"><i class="fas fa-user-lock"></i> Admin Login</a>
     </footer>
 </body>
+
 </html>

@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         /* General Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a; /* Dark background */
+            color: #FFFFFF; /* White text */
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,45 +21,62 @@
 
         h1 {
             font-size: 2.8rem;
-            color: #2d3748;
+            color: #FFD700; /* Gold color for heading */
             margin: 30px 0;
             text-align: center;
         }
 
         .dashboard-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-gap: 20px;
+            grid-template-columns: repeat(2, 1fr); /* Fixed 2x2 grid */
+            gap: 20px;
             width: 90%;
-            max-width: 1200px;
+            max-width: 800px; /* Adjusted for 2x2 layout */
             padding: 20px;
         }
 
         .dashboard-item {
-            background-color: #5a67d8;
-            color: white;
+            background-color: #111111; /* Dark item background */
+            color: #FFD700; /* Gold text */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 200px;
-            border-radius: 10px;
+            border-radius: 8px; /* Slightly rounded corners */
             font-size: 1.5rem;
             text-decoration: none;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
+            border: 1px solid #FFD700; /* Gold border */
         }
 
         .dashboard-item:hover {
-            background-color: #434190;
+            background-color: #FFD700; /* Gold on hover */
+            color: #111111; /* Dark text on hover */
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Logout Button */
+        .logout-button {
+            background-color: #FF6347; /* Tomato red */
+            color: #FFFFFF; /* White text */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #FF4500; /* Darker red on hover */
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .dashboard-container {
-                grid-template-columns: 1fr;
-            }
-
             .dashboard-item {
                 height: 150px;
                 font-size: 1.3rem;
@@ -74,8 +93,11 @@
         <a href="{{ url_for('admin.admin_request') }}" class="dashboard-item">Requests</a>
         <a href="{{ url_for('admin.admin_gallery') }}" class="dashboard-item">Gallery</a>
         <a href="{{ url_for('admin.admin_services') }}" class="dashboard-item">Services</a>
-        <a href="{{ url_for('admin.admin_details') }}" class="dashboard-item">Details</a>
+        <a href="{{ url_for('admin.admin_calendar') }}" class="dashboard-item">Calendar</a>
     </div>
+
+    <!-- Logout Button -->
+    <a href="{{ url_for('admin.logout') }}" class="logout-button">Logout</a>
 
 </body>
 </html>

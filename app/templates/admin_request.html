@@ -1,10 +1,159 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Request</title>
-</head>
-<body>
-    <h1>Admin Request</h1>
-    <p>Requests will be displayed here.</p>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Manage Bookings</h1>
+
+<table class="booking-table">
+    <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Service Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking._id }}</td>
+            <td>{{ booking.name }}</td>
+            <td>{{ booking.email }}</td>
+            <td>{{ booking.phone }}</td>
+            <td>{{ booking.service_name }}</td>
+            <td>{{ booking.date }}</td>
+            <td>{{ booking.status }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('admin.admin_request') }}" class="status-form">
+                    <input type="hidden" name="booking_id" value="{{ booking._id }}">
+                    <input type="hidden" name="email" value="{{ booking.email }}">
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="status" value="Available" required> Available
+                        </label>
+                        <label>
+                            <input type="radio" name="status" value="Not Available"> Not Available
+                        </label>
+                    </div>
+                    <button type="submit" class="confirm-button">Confirm</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<style>
+    /* General Styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #1a1a1a; /* Dark background */
+        color: #FFFFFF; /* White text */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+    }
+
+    h1 {
+        font-size: 2.8rem;
+        color: #FFD700; /* Gold color for heading */
+        margin: 30px 0;
+        text-align: center;
+    }
+
+    /* Table Styles */
+    .booking-table {
+        width: 90%;
+        max-width: 1200px;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1rem;
+        background-color: #111111; /* Dark table background */
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #FFD700; /* Gold border */
+    }
+
+    .booking-table th, .booking-table td {
+        padding: 12px 15px;
+        text-align: center;
+        color: #FFD700; /* Gold text for headers */
+        border-bottom: 1px solid #FFD700; /* Gold border */
+    }
+
+    .booking-table th {
+        background-color: #1a1a1a; /* Dark background for headers */
+        font-weight: bold;
+    }
+
+    .booking-table td {
+        background-color: #1a1a1a; /* Dark background for rows */
+    }
+
+    .booking-table tr:hover {
+        background-color: #333333; /* Slightly lighter background on hover */
+    }
+
+    /* Form Styles */
+    .status-form {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 10px; /* Space between radio buttons */
+    }
+
+    label {
+        margin-right: 10px;
+        color: #FFD700;
+    }
+
+    /* Confirm Button */
+    .confirm-button {
+        background-color: #FFD700; /* Gold button */
+        color: #1a1a1a; /* Dark text */
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .confirm-button:hover {
+        background-color: #333333; /* Darker background on hover */
+        color: #FFD700; /* Gold text on hover */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .booking-table th, .booking-table td {
+            padding: 8px 10px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+        }
+
+        .confirm-button {
+            padding: 4px 8px;
+            font-size: 0.9rem;
+        }
+
+        .radio-group {
+            flex-direction: column; /* Stack radio buttons vertically on smaller screens */
+            align-items: flex-start;
+        }
+    }
+</style>
+
+{% endblock %}

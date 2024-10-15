@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Services</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a; /* Dark background */
+            color: #FFFFFF; /* White text */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #FFD700; /* Gold color for heading */
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #111111; /* Dark background for the form container */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #FFD700; /* Gold border */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #FFD700; /* Gold label color */
+        }
+
+        select, input[type="text"], input[type="email"], input[type="number"], input[type="date"], button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #333333; /* Dark input background */
+            color: #FFFFFF; /* White text */
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        select:hover, input[type="text"]:hover, input[type="email"]:hover, input[type="number"]:hover, input[type="date"]:hover {
+            border-color: #FFD700; /* Gold border on hover */
+        }
+
+        button {
+            background-color: #FFD700; /* Gold button */
+            border: none;
+            cursor: pointer;
+            color: #1a1a1a; /* Dark text */
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #333333; /* Darker background on hover */
+            color: #FFD700; /* Gold text on hover */
+        }
+
+        .message {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Book Services</h1>
+
+<div class="form-container">
+    {% if message %}
+        <div class="message" style="color: {% if 'busy' in message %}red{% else %}green{% endif %};">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <form action="{{ url_for('home.book_services') }}" method="POST" id="bookingForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="number" name="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="service">Select Service:</label>
+            <select name="service_name" id="service" required>
+                {% for service in services %}
+                    <option value="{{ service.name }}">{{ service.name }}</option> <!-- Save the service name -->
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date">Select Date:</label>
+            <input type="date" name="date" id="date" required>
+            <div id="availability-message" class="message"></div>
+        </div>
+        <button type="submit" id="submitBtn">Proceed to Payment</button>
+    </form>
+</div>
+
+<script>
+    const dateInput = document.getElementById('date');
+    const availabilityMessage = document.getElementById('availability-message');
+    const submitButton = document.getElementById('submitBtn');
+
+    // Check availability when a date is selected
+    dateInput.addEventListener('input', function () {
+        const selectedDate = dateInput.value;
+
+        if (selectedDate) {
+            // Make an AJAX request to check availability
+            fetch(`/check_availability?date=${selectedDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_busy) {
+                        availabilityMessage.textContent = "This date is busy. Please choose another date.";
+                        availabilityMessage.style.color = 'white';
+                        submitButton.disabled = true;
+                    } else {
+                        availabilityMessage.textContent = "This date is available.";
+                        availabilityMessage.style.color = '#FFD700';
+                        submitButton.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error checking availability:", error);
+                    availabilityMessage.textContent = "Unable to check availability. Please try again.";
+                    availabilityMessage.style.color = 'white';
+                    submitButton.disabled = true;
+                });
+        }
+    });
+</script>
+
+</body>
+</html>

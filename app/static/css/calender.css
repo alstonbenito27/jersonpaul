@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    margin: 20px;
+}
+
+#calendar {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+form {
+    margin: 20px 0;
+}
+
+form label {
+    margin-right: 10px;
+}
+
+form input, form select {
+    margin-right: 20px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}

@@ -1,0 +1,50 @@
+<h2>Payment Details</h2>
+<p>Name: {{ name }}</p>
+<p>Email: {{ email }}</p>
+<p>Phone: {{ phone }}</p>
+<p>Service: {{ service.name }}</p>
+<p>Date: {{ date }}</p>
+<p>Amount: {{ service.advance }}</p>
+
+<form id="payment-form" method="POST" action="{{ url_for('home.payments') }}">
+    <!-- Braintree Drop-In UI -->
+    <div id="dropin-container"></div>
+
+    <!-- Submit Button -->
+    <button type="submit" id="submit-button">Proceed to Payment</button>
+</form>
+
+<script src="https://js.braintreegateway.com/web/dropin/1.32.0/js/dropin.min.js"></script>
+<script>
+    // Initialize Braintree Drop-In UI
+    braintree.dropin.create({
+        authorization: "{{ client_token }}",  // Use the client token from the server
+        container: '#dropin-container'
+    }, function (createErr, instance) {
+        if (createErr) {
+            console.error(createErr);
+            return;
+        }
+
+        // On form submission, request a payment method nonce
+        document.getElementById('payment-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            instance.requestPaymentMethod(function (err, payload) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+
+                // Append the nonce to the form and submit it
+                var nonceInput = document.createElement('input');
+                nonceInput.setAttribute('type', 'hidden');
+                nonceInput.setAttribute('name', 'payment_method_nonce');
+                nonceInput.setAttribute('value', payload.nonce);
+                document.getElementById('payment-form').appendChild(nonceInput);
+
+                document.getElementById('payment-form').submit();
+            });
+        });
+    });
+</script>
