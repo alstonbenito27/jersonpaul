@@ -3,48 +3,36 @@
 
 <h1>Manage Bookings</h1>
 
-<table class="booking-table">
-    <thead>
-        <tr>
-            <th>Booking ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Service Name</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for booking in bookings %}
-        <tr>
-            <td>{{ booking._id }}</td>
-            <td>{{ booking.name }}</td>
-            <td>{{ booking.email }}</td>
-            <td>{{ booking.phone }}</td>
-            <td>{{ booking.service_name }}</td>
-            <td>{{ booking.date }}</td>
-            <td>{{ booking.status }}</td>
-            <td>
-                <form method="POST" action="{{ url_for('admin.admin_request') }}" class="status-form">
-                    <input type="hidden" name="booking_id" value="{{ booking._id }}">
-                    <input type="hidden" name="email" value="{{ booking.email }}">
-                    <div class="radio-group">
-                        <label>
-                            <input type="radio" name="status" value="Available" required> Available
-                        </label>
-                        <label>
-                            <input type="radio" name="status" value="Not Available"> Not Available
-                        </label>
-                    </div>
-                    <button type="submit" class="confirm-button">Confirm</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="booking-cards">
+    {% for booking in bookings %}
+    <div class="booking-card">
+        <div class="card-content">
+            <h2>Booking ID: {{ booking._id }}</h2>
+            <p><strong>Name:</strong> {{ booking.name }}</p>
+            <p><strong>Email:</strong> {{ booking.email }}</p>
+            <p><strong>Phone:</strong> {{ booking.phone }}</p>
+            <p><strong>Service Name:</strong> {{ booking.service_name }}</p>
+            <p><strong>Date:</strong> {{ booking.date }}</p>
+            <p><strong>Status:</strong> {{ booking.status }}</p>
+        </div>
+        <div class="card-actions">
+            <form method="POST" action="{{ url_for('admin.admin_request') }}" class="status-form">
+                <input type="hidden" name="booking_id" value="{{ booking._id }}">
+                <input type="hidden" name="email" value="{{ booking.email }}">
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="status" value="Available" required> Available
+                    </label>
+                    <label>
+                        <input type="radio" name="status" value="Not Available"> Not Available
+                    </label>
+                </div>
+                <button type="submit" class="confirm-button">Confirm</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 <style>
     /* General Styles */
@@ -57,7 +45,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 100vh;
     }
 
     h1 {
@@ -67,40 +54,41 @@
         text-align: center;
     }
 
-    /* Table Styles */
-    .booking-table {
+    /* Booking Cards */
+    .booking-cards {
         width: 90%;
         max-width: 1200px;
-        border-collapse: collapse;
-        margin: 20px 0;
-        font-size: 1rem;
-        background-color: #111111; /* Dark table background */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .booking-card {
+        background-color: #111111; /* Dark background for card */
+        padding: 20px;
         border-radius: 8px;
-        overflow: hidden;
-        border: 1px solid #FFD700; /* Gold border */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        color: #FFD700;
     }
 
-    .booking-table th, .booking-table td {
-        padding: 12px 15px;
-        text-align: center;
-        color: #FFD700; /* Gold text for headers */
-        border-bottom: 1px solid #FFD700; /* Gold border */
+    .card-content {
+        margin-bottom: 15px;
     }
 
-    .booking-table th {
-        background-color: #1a1a1a; /* Dark background for headers */
-        font-weight: bold;
+    .card-content h2 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
     }
 
-    .booking-table td {
-        background-color: #1a1a1a; /* Dark background for rows */
+    .card-content p {
+        margin: 8px 0;
     }
 
-    .booking-table tr:hover {
-        background-color: #333333; /* Slightly lighter background on hover */
+    .card-actions {
+        margin-top: 15px;
     }
 
-    /* Form Styles */
     .status-form {
         display: flex;
         justify-content: space-between;
@@ -136,10 +124,6 @@
 
     /* Responsive Design */
     @media (max-width: 768px) {
-        .booking-table th, .booking-table td {
-            padding: 8px 10px;
-        }
-
         h1 {
             font-size: 2.2rem;
         }

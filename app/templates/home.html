@@ -11,7 +11,7 @@
         body {
             font-family: 'Arial', sans-serif;
             color: #FFFFFF;
-            background-color: #1a1a1a;
+            background-color: thon run;
             margin: 0;
             padding: 0;
         }
@@ -33,6 +33,7 @@
             text-transform: uppercase;
             font-weight: bold;
         }
+
 
         header p {
             margin-top: 5px;
@@ -186,9 +187,11 @@
 
 <body>
     <header>
-        <h1>JersonPaul Photography</h1>
-        <p>Capturing Moments, Creating Memories</p>
-    </header>
+    <img src="{{ url_for('static', filename='uploads/logo.png') }}" alt="JersonPaul Photography Logo" style="height: 80px; vertical-align: middle; margin-right: 20px;">
+    <h1>JersonPaul Photography</h1>
+    <p>Capturing Moments, Creating Memories</p>
+</header>
+
 
     <nav>
         <ul>
@@ -203,7 +206,8 @@
     <div class="container">
         <!-- Wedding Section -->
         <div class="gallery-section">
-            <h2>Wedding Gallery</h2>
+            <h2 style="color: black; font-size: 30px; font-family: 'Georgia', serif; letter-spacing: 2px; margin: 0; text-transform: uppercase; font-weight: bold;">Wedding Gallery</h2>
+
             <div class="gallery-slider">
                 {% for image in wedding_images %}
                 <div class="gallery-card">
@@ -214,7 +218,7 @@
         </div>
         <!-- Corporate Section -->
         <div class="gallery-section">
-            <h2>Corporate Gallery</h2>
+            <h2 style="color: black; font-size: 30px; font-family: 'Georgia', serif; letter-spacing: 2px; margin: 0; text-transform: uppercase; font-weight: bold;">Corporate Gallery</h2>
             <div class="gallery-slider">
                 {% for image in corporate_images %}
                 <div class="gallery-card">
@@ -225,7 +229,7 @@
         </div>
         <!-- House Festivities Section -->
         <div class="gallery-section">
-            <h2>House Festivities Gallery</h2>
+            <h2 style="color: black; font-size: 30px; font-family: 'Georgia', serif; letter-spacing: 2px; margin: 0; text-transform: uppercase; font-weight: bold;">House festivities Gallery</h2>
             <div class="gallery-slider">
                 {% for image in house_festivities_images %}
                 <div class="gallery-card">
@@ -241,13 +245,13 @@
     <section class="contact-section">
         <h2>Contact Us</h2>
         <p><i class="fas fa-phone"></i> +91 9000090000</p>
-        <p><i class="fas fa-envelope"></i> jpp@example.com</p>
+        <p><i class="fas fa-envelope"></i> jpp@gmail.com</p>
         <p>Follow us on <a href="https://www.instagram.com/jp_photographyyyy_/">Instagram</a>
     </section>
 
     <footer>
         <p>&copy; 2024 JersonPaul Photography. All rights reserved. | <a href="{{ url_for('home.contact') }}">Contact Us</a></p>
-        <a href="{{ url_for('admin.admin_login') }}" class="admin-login"><i class="fas fa-user-lock"></i> Admin Login</a>
+        <a href="{{ url_for('admin.admin_login') }}" class="admin-login"><i class="fas fa-user-lock"></i> </a>
     </footer>
 </body>
 
